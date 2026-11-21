@@ -1,0 +1,6 @@
+# corpus downloads are big and reproducible — never commit them
+corpus/
+.corpus/
+.cache/
+__pycache__/
+.DS_Store
