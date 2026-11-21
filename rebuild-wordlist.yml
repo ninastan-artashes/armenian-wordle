@@ -1,0 +1,31 @@
+name: Rebuild word list from corpus
+
+# Keeps the shipped word list contemporary: re-downloads the Armenian corpus,
+# re-ranks every word and commits the regenerated index.html + data/words.json.
+on:
+  schedule:
+    - cron: "0 4 * * 1"      # every Monday, 04:00 UTC
+  workflow_dispatch:          # or run it by hand from the Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install dependencies
+        run: pip install spylls
+      - name: Count corpus and rebuild word list
+        run: python3 pipeline/build_wordlist.py --download --corpus-dir .corpus
+      - name: Regenerate index.html
+        run: python3 pipeline/build_site.py
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: rebuild word list from corpus"
+          file_pattern: "data/words.json index.html"

@@ -1,0 +1,8 @@
+# Words you never want as an answer or a guess.
+# Matching is by substring, so keep entries long enough not to hit innocent
+# words (e.g. do not add "ոռ" — it appears inside ordinary words).
+ջհուդ
+գյավուր
+բոզ
+քաք
+ոռտ
